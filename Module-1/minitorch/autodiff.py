@@ -180,7 +180,16 @@ class FunctionBase:
 
         """
         # TODO: Implement for Task 1.3.
-        raise NotImplementedError('Need to implement for Task 1.3')
+        # raise NotImplementedError('Need to implement for Task 1.3')
+        templist = []
+        backwards_value = cls.backward(ctx, d_output)
+        if isinstance(backwards_value, tuple) is False:
+            backwards_value = (backwards_value, )
+        for i, j in enumerate(inputs):
+            if (isinstance(j, int) is False) and (isinstance(j, float) is False):
+                if j.history is not None:
+                    templist.append(VariableWithDeriv(j, backwards_value[i]))
+        return templist
 
 
 def is_leaf(val):
@@ -203,4 +212,15 @@ def backpropagate(final_variable_with_deriv):
            and its derivative that we want to propagate backward to the leaves.
     """
     # TODO: Implement for Task 1.4.
-    raise NotImplementedError('Need to implement for Task 1.4')
+    # raise NotImplementedError('Need to implement for Task 1.4')
+    bp_list = []
+    bp_list.append(final_variable_with_deriv)
+
+    while bp_list:
+        elem = bp_list.pop(0)
+        tempvar = elem.variable
+        if tempvar.history.is_leaf():
+            tempvar._add_deriv(elem.deriv)
+        else:
+            for i in tempvar.history.backprop_step(elem.deriv):
+                bp_list.append(i)
