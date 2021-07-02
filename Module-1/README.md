@@ -18,8 +18,9 @@ cp ../Module-0/operators.py ../Module-0/module.py minitorch/
 ```
 python run_tests.py
 ```
-Tarea 1.5
-Training
+Tarea 1.5 - Training
+
+
 Resultado de la clasificación 
 
 ![](1.png)
